@@ -1,6 +1,6 @@
 ## Get Started
 
-Zur Installation und zum ausführen wird [Node](https://nodejs.org) und
+Zur Installation und zum Ausführen wird [Node](https://nodejs.org) und
 der dazugehörige [Node Package Manager](https://www.npmjs.com/), welcher
 mit Node mitgeliefert wird. Beide Tools sollten über die Pfadvariable
 des Systems ausführbar sein.
