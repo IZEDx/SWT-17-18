@@ -1,0 +1,10 @@
+- Aktivitätsdiagramm (User loggt sich ein etc...)
+- User wurde eingeloggt / nicht eingeloggt = Bedingungen []
+- Button um einloggen ausgegraut wenn kein PW eingegeben wurde spezifizieren (als Zustands oder Aktivitätsdiagramm)
+- Übergänge fehlen
+- bsp. Neuen Termin hinzufügen (User klickt an)
+- Was für ein Button wird geklickt ?
+- Trigger hinzufügen
+- Sub-Diagramm (Termin wurde (nicht) gelöscht etc....)
+- Wireframe oder Mockup ( was für Buttons gibt es auf der Seite etc.... Wie klicke ich mich durch Menü durch?, Welche Fehlermeldungen werden angezeigt?)
+- Kein Text solange wir das mit den Triggern ordentlich ausspezifizieren
