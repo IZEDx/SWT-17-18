@@ -1,0 +1,6 @@
+- Passwort zurücksetzen Hinweis braucht man nicht ( nicht spezifiziert)
+- Nach Login direkt zur Dienstplanansicht
+- Termin hinzufügen Subdiagramm
+	- Gültige Eingabe, ungültige Eingabe
+	- Wie kommt man vom Hinweis zurück ?
+- Mockups (kein Styling, nur Struktur) 
