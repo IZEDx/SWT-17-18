@@ -8,21 +8,19 @@ export enum RepetitionEnum {
     once
 }
 
-export interface IEvent {
-    dbid : number;
+export interface IEvent extends IDBObject {
     name : string;
     description : string;
     begin : Date;
     end : Date;
     repetition : RepetitionEnum;
-    employees : IEmployee[];
 
     delete(): void;
-    edit(name: number, description : string, begin: DateTime, end : DateTime, repetition : RepetitionEnum, employees : IEmployee[]) : boolean;
-    getAssignedEmployees() : IEmployee[];
+    edit(name: string, description : string, begin: DateTime, end : DateTime, repetition : RepetitionEnum, employees : IEmployee[]): Promise<boolean>;
+    getAssignedEmployees() : Promise<IEmployee[]>;
 }
 
-export interface IEmployee {
+export interface IEmployee extends IDBObject {
     firstname: string;
     name: string;
     phone: string;
@@ -42,7 +40,7 @@ export interface IEmployee {
     getEventAtTime(time: DateTime): IEvent|null;
 }
 
-export interface IAddress {
+export interface IAddress extends IDBObject {
     street: string;
     number: string;
     postcode: string;
@@ -65,4 +63,8 @@ export interface IDatabaseController {
 
     getEventsFromEmployee(employee: IEmployee): Promise<IEvent[]>;
     getEmployeesFromEvent(event: IEvent): Promise<IEmployee[]>;
+}
+
+export interface IDBObject {
+    id: number;
 }

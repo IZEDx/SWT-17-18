@@ -1,6 +1,6 @@
 
-import { DateTime, IAddress, IDatabaseController, IEmployee, IEvent } from "./interfaces";
-import { createConnection, IConnection, IConnectionConfig, escape, format, IError } from "mysql";
+import { DateTime, IDatabaseController, IEmployee, IEvent } from "./interfaces";
+import { createConnection, IConnection, IConnectionConfig, escape, format } from "mysql";
 
 const config: IConnectionConfig = ((require as Function)("../package.json")).config.mysql;
 
@@ -60,6 +60,7 @@ export class DatabaseController implements IDatabaseController {
 
 
     async getEventsFromTimespan(from: DateTime, to: DateTime): Promise<IEvent[]> {
+        return [];
     }
 
     getEventsByName(name: String): Promise<IEvent[]> {
@@ -67,37 +68,51 @@ export class DatabaseController implements IDatabaseController {
     }
 
     async getEmployeeByAnyInfo(info: String): Promise<IEmployee[]> {
-
+        return [];
     }
 
     //-------------------------------------------------------------------------------//
 
     async removeEventFromDb(event: IEvent): Promise<boolean> {
-
+        return false;
     }
 
     async removeEmployeeFromDb(employee: IEmployee): Promise<boolean> {
-
+        return false;
     }
 
     //-------------------------------------------------------------------------------//
 
     async updateEmployee(employee: IEmployee): Promise<boolean> {
-
+        return false;
     }
 
     async updateEvent(event: IEvent): Promise<boolean> {
-
+        return false;
     }
 
     //-------------------------------------------------------------------------------//
 
     async getEventsFromEmployee(employee: IEmployee): Promise<IEvent[]> {
-
+        return [];
     }
 
     async getEmployeesFromEvent(event: IEvent): Promise<IEmployee[]> {
-
+        return [];
     }
 
+}
+
+export class DBObject {
+    private dbid: number;
+
+    set id(id: number) {
+        if (this.dbid === undefined) {
+            this.dbid = id;
+        }
+    }
+
+    get id() {
+        return this.dbid;
+    }
 }
