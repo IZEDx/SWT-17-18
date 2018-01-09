@@ -1,14 +1,8 @@
 
 import Employee from "./employee";
 
-export enum RepetitionEnum{
-    daily,
-    weekdays,
-    weekly,
-    once
-}
 
-export default class Event{
+export class Event {
     private dbid : number;
     private name : string;
     private description : string;
@@ -21,24 +15,24 @@ export default class Event{
         return this.dbid;
     }
 
-    private constructor(name : string, description : string, begin : Date, end : Date, rep : RepetitionEnum){
+    private constructor(name: string, description: string, begin: Date, end: Date, rep: RepetitionEnum) {
 
     }
 
-    static add(name : string, description : string, begin : Date, end : Date, rep : RepetitionEnum, employees : Employee[]) : Event {
+    static add(name : string, description : string, begin : Date, end : Date, rep: RepetitionEnum, employees: Employee[]): Event {
+      return null;
+    }
+
+    delete() {
 
     }
 
-    delete(){
+    edit(name: string, description: string, begin: Date, end: Date, rep: RepetitionEnum, employees: Employee[]) {
 
     }
 
-    edit(name : string, description : string, begin : Date, end : Date, rep : RepetitionEnum, employees : Employee[]){
-
-    }
-
-    getAssignedEmployees() : Employee[]{
-
+    getAssignedEmployees(): Employee[] {
+      return null;
     }
 
 }

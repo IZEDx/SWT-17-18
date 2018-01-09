@@ -1,1 +1,1 @@
-console.log("Hello World");
+import {Address, Employee} from "./employee";
