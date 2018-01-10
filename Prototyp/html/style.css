@@ -1,0 +1,14 @@
+#login-logo{
+    float: left;
+    padding-left: 50%;
+    padding-top: 10%;
+}
+
+#login-logo>img{
+    height: 200px;
+    width: 200px;
+    margin-left: -100px;
+}
+#login{
+    float: left;
+}
