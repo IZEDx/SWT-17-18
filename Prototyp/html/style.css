@@ -1,14 +1,27 @@
 #login-logo{
     float: left;
-    padding-left: 50%;
-    padding-top: 10%;
+    margin-left: 42%;
+    margin-top: 10%;
 }
 
 #login-logo>img{
-    height: 200px;
-    width: 200px;
-    margin-left: -100px;
+    height: 16%;
+    width: 16%;
 }
+
 #login{
+    float: left;
+    color: #B4886B;
+    width: 18%;
+    height: 300px;
+    margin-left: 41%;
+
+}
+
+#login>input{
+    float: left;
+}
+
+#login>label{
     float: left;
 }
