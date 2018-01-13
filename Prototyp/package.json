@@ -14,6 +14,7 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/tsc",
+    "watch": "npm run build -- --watch",
     "start": "node index.js",
     "debug": "node $NODE_DEBUG_OPTION index.js",
     "debug-win": "node %NODE_DEBUG_OPTION% index.js"
