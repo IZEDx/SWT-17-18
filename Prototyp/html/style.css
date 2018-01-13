@@ -12,10 +12,9 @@
 #login{
     float: left;
     color: #B4886B;
-    width: 18%;
+    width: 100px;
     height: 300px;
     margin-left: 41%;
-
 }
 
 #login>input{
@@ -25,3 +24,10 @@
 #login>label{
     float: left;
 }
+
+#loginButton {
+    margin-top: 10px;
+    padding-right: 59px;
+    padding-left: 59px;
+}
+
