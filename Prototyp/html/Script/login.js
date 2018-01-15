@@ -11,8 +11,16 @@ function loginSubmit(username, password) {
             var response = JSON.parse(xhttp.responseText);
             if (response.success === true) {
                 var token = response.token;
-                
-            } 
+                openMainPage(token);
+                alert("Succes!");
+            } else {
+                document.getElementById("alert").style.visibility = "true";
+
+            }
         }
     };
+}
+
+function openMainPage(token){
+    window.location.replace("/html/calendar.html");
 }
