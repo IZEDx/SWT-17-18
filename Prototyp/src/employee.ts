@@ -1,8 +1,24 @@
 
 import { DateTime, IAddress, IEmployee, IEvent } from "./interfaces";
 import { DatabaseController, DBObject } from "./databasecontroller";
+import { Request, Response, IRoute } from "express";
 
 const db = DatabaseController.singleton();
+
+export function EmployeeRoute(route: IRoute) {
+    route.post((req, res) => {
+        const b = req.body;
+        const address: IAddress = {
+            id: -1, 
+            street: b.street,
+            number: b.number,
+            postcode: b.postcode,
+            city: b.city
+        }
+        const employee = Employee.add(b.firstname, b.name, address, b.username, b.email, b.password,
+                                        b.qualifications.split(","), b.driverLicense, b.isAdmin);
+    });
+}
 
 export class Employee extends DBObject implements IEmployee {
     phone: string;
@@ -21,10 +37,10 @@ export class Employee extends DBObject implements IEmployee {
         super();
     }
 
-    static add(firstname: string, name: string, address : IAddress, username: string, email: string, password: string,  qualifications: string[], driverLicense : boolean, isAdmin : boolean): Employee {
+    static async add(firstname: string, name: string, address : IAddress, username: string, email: string, password: string,  qualifications: string[], driverLicense : boolean, isAdmin : boolean): Promise<Employee|null> {
         const employee = new Employee(firstname, name, address, username, email, password, qualifications.join(","), driverLicense, isAdmin);
-        db.addEmployeeToDb(employee);
-        return employee;
+        const success = await db.addEmployeeToDb(employee);
+        return success ? employee : null;
     }
 
     delete() {
