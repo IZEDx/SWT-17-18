@@ -1,6 +1,6 @@
 function loginSubmit(username, password) {
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/api/login", false);
+    xhttp.open("POST", "/api/login");
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send(JSON.stringify({
         username: username,
@@ -12,7 +12,7 @@ function loginSubmit(username, password) {
             if (response.success === true) {
                 var token = response.token;
                 openMainPage(token);
-                alert("Succes!");
+                alert("Success!");
             } else {
                 document.getElementById("alert").style.visibility = "true";
 
@@ -22,5 +22,5 @@ function loginSubmit(username, password) {
 }
 
 function openMainPage(token){
-    window.location.replace("/html/calendar.html");
+    window.location.replace("/calendar.html");
 }
