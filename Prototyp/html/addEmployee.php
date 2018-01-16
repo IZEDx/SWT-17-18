@@ -98,7 +98,8 @@
                 <th>Name</th>
                 <th>Email</th>
                 <th>Addresse</th>
-                <th>Telefonnummer</th>
+                <th>Qualifikationen</th>
+                <th>Führerschein</th>
                 <th>Aktionen</th>
             </tr>
             </thead>
