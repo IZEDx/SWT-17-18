@@ -1,7 +1,7 @@
 
 import { DateTime, IAddress, IEmployee, IEvent } from "./interfaces";
 import { DatabaseController, DBObject } from "./databasecontroller";
-import { Request, Response, IRoute } from "express";
+import { IRoute } from "express";
 
 const db = DatabaseController.singleton();
 
@@ -15,8 +15,8 @@ export function EmployeeRoute(route: IRoute) {
             postcode: b.postcode,
             city: b.city
         }
-        const employee = Employee.add(b.firstname, b.name, address, b.username, b.email, b.password,
-                                        b.qualifications.split(","), b.driverLicense, b.isAdmin);
+        Employee.add(b.firstname, b.name, address, b.username, b.email, b.password,
+                    b.qualifications.split(","), b.driverLicense, b.isAdmin);
     });
 }
 

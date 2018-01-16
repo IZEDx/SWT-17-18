@@ -1,15 +1,15 @@
 
 import express = require("express");
-import { static as serveStatic, Router, Request, Response } from "express";
+import { static as serveStatic, Router } from "express";
 import { join } from "path";
 import { json, urlencoded } from "body-parser";
 import { EmployeeRoute } from "./employee";
+import { login, isLoggedIn } from "./authentication";
 
 const path = (...str: string[]) => join(__dirname, "..", ...str);
 
-
 export async function main(args: string[]) {
-    const port = process.env.PORT || parseInt(args[2], 10) || 8080;
+    const port = parseInt((require("../config.json") || require("../config-sample.json")).port, 10);
     const app = express();
     const apiRouter = Router();
 
@@ -18,9 +18,8 @@ export async function main(args: string[]) {
     app.use(json());
     app.use("/api", apiRouter);
 
-    apiRouter.get('/', function(req, res) {
-        res.json({ message: 'hooray! welcome to our api!' });   
-    });
+    apiRouter.post("/login", login);
+    apiRouter.get("/isloggedin", isLoggedIn);
     EmployeeRoute(apiRouter.route("/employee"));
 
     console.log(`Starting WebServer on port ${port}`)
