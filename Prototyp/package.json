@@ -3,15 +3,6 @@
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
-  "config": {
-    "port": 23000,
-    "mysql": {
-      "host": "localhost",
-      "user": "root",
-      "password": "",
-      "database": ""
-    }
-  },
   "scripts": {
     "build": "./node_modules/.bin/tsc",
     "watch": "npm run build -- --watch",

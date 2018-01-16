@@ -2,7 +2,7 @@
 import { DateTime, IDatabaseController, IEmployee, IEvent } from "./interfaces";
 import { createConnection, IConnection, IConnectionConfig, escape, format } from "mysql";
 
-const config: IConnectionConfig = ((require as Function)("../package.json")).config.mysql;
+const config: IConnectionConfig = (require("../config.json") || require("../config-sample.json")).mysql;
 
 let controllerInstance: DatabaseController;
 
@@ -12,8 +12,14 @@ export class DatabaseController implements IDatabaseController {
     private connection: IConnection;
 
     private constructor(config: IConnectionConfig){
+        const dbname = config.database;
+        config.database = "";
         this.connection = createConnection(config)
-        this.connection.connect();
+        this.connection.connect(err => {
+            if (err === undefined) {
+                this.query("CREATE SCHEMA IF NOT EXISTS `" + escape(dbname) + "` DEFAULT CHARACTER SET utf8; USE `" + escape(dbname) + "`;");
+            }
+        });
     }
 
     static singleton(): DatabaseController {
