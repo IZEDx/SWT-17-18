@@ -104,26 +104,26 @@
             </tr>
             </thead>
             <tbody>
-
             <tr>
-                <td >
-							<span class="custom-checkbox" >
-								<input type = "checkbox" id = "checkbox1" name = "options[]" value = "1" >
-								<label for="checkbox1" ></label >
-							</span >
-                </td >
-                <td > Thomas Hardy </td >
-                <td > thomashardy@mail . com </td >
-                <td > 89 Chiaroscuro Rd, Portland, USA </td >
-                <td > (171) 555 - 2222 </td >
-                <td> JA </td>
-                <td >
-                    <a href = "#editEmployeeModal" class="edit" data - toggle = "modal" ><i class="material-icons"
-                                                                                     data - toggle = "tooltip" title = "Edit" >&#xE254;</i></a>
-                    <a href = "#deleteEmployeeModal" class="delete" data - toggle = "modal" ><i class="material-icons"
-                                                                                         data - toggle = "tooltip"
-                                                                                         title = "Delete" >&#xE872;</i></a>
-                </td >
+                <td>
+							<span class="custom-checkbox">
+								<input type="checkbox" id="checkbox1" name="options[]" value="1">
+								<label for="checkbox1"></label>
+							</span>
+                </td>
+                <td> Thomas Hardy</td>
+                <td> thomashardy@mail . com</td>
+                <td> 89 Chiaroscuro Rd, Portland, USA</td>
+                <td> (171) 555 - 2222</td>
+                <td> JA</td>
+                <td>
+                    <a href="#editEmployeeModal" class="edit" data - toggle="modal"><i class="material-icons"
+                                                                                       data - toggle="tooltip"
+                                                                                       title="Edit">&#xE254;</i></a>
+                    <a href="#deleteEmployeeModal" class="delete" data - toggle="modal"><i class="material-icons"
+                                                                                           data - toggle="tooltip"
+                                                                                           title="Delete">&#xE872;</i></a>
+                </td>
             </tr>
 
             </tbody>
@@ -223,9 +223,32 @@
         </div>
     </div>
 </div>
+
+<div style="width: 100%;height: 250px; background-color: #00CC00">
+    <p><?php
+        $jsonFile = file_get_contents("test.json");
+        //$jsonFile = callAPI("GET", "api/employees", $jsonFile);
+        echo json_decode($jsonFile);
+        $jsonIterator = new RecursiveIteratorIterator(
+            new RecursiveArrayIterator(json_decode($jsonFile, TRUE)),
+            RecursiveIteratorIterator::SELF_FIRST);
+        foreach ($jsonIterator
+
+                 as $key => $val) {
+            if (is_array($val)) {
+                echo "$key:\n";
+            } else {
+                echo "$key => $val\n";
+            }
+        }
+        ?></p>
+</div>
+
+
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="bootstrap/docs/assets/js/vendor/jquery.min.js"><\/script>')</script>
 <script src="bootstrap/dist/js/bootstrap.min.js"></script>
