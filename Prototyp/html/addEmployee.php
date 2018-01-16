@@ -116,6 +116,7 @@
                 <td > thomashardy@mail . com </td >
                 <td > 89 Chiaroscuro Rd, Portland, USA </td >
                 <td > (171) 555 - 2222 </td >
+                <td> JA </td>
                 <td >
                     <a href = "#editEmployeeModal" class="edit" data - toggle = "modal" ><i class="material-icons"
                                                                                      data - toggle = "tooltip" title = "Edit" >&#xE254;</i></a>
