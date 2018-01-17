@@ -149,7 +149,8 @@
 <script>
     document.write("<table id='tabelle2' >");
     document.write("<tr>")
-    document.write("<th>Name</th>\n" +
+    document.write("<th>Checkbox</th>\n" +
+        "        <th>Name</th>\n" +
         "        <th>Email</th>\n" +
         "        <th>Addresse</th>\n" +
         "        <th>Qualifikationen</th>\n" +
@@ -165,6 +166,10 @@
             var employee_data = '';
             $.each(data, function(key, value){
                 employee_data += '<tr>';
+                    employee_data += '<td>' + "<span class='custom-checkbox'>" +
+                    "<input type='checkbox' id='checkbox1' name='options[]' value='1'> " +
+                    "<label for='checkbox1'>" + "</label>" +
+                    "</span>" + "</td>";
                 employee_data += '<td>' + value.name + "</td>";
                 employee_data += '<td>' + value.email + "</td>";
                 employee_data += '<td>' + value.address + "</td>";
