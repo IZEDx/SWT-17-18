@@ -8,6 +8,16 @@ body {
 #tabelle2 {
     margin: auto;
 }
+
+td {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+th {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
 .table-wrapper {
     background: #fff;
     padding: 20px 25px;

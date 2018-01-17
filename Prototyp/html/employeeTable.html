@@ -23,6 +23,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
     <!-- Custom styles for this template -->
     <link href="styles/signin.css" rel="stylesheet">
 
@@ -33,32 +39,125 @@
 
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"/>
 
+
     <script type="text/javascript" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 
-    <script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Activate tooltip
+            $('[data-toggle="tooltip"]').tooltip();
 
-        document.write("<table id='tabelle2' >");
-
-
-            document.write("<tr>")
-            document.write("<th>Name</th>\n" +
-                "        <th>Email</th>\n" +
-                "        <th>Addresse</th>\n" +
-                "        <th>Qualifikationen</th>\n" +
-                "        <th>Führerschein</th>\n" +
-                "        <th>Aktionen</th>");
-            document.write("</tr>");
-
-        document.write("</table>");
-
+            // Select/Deselect checkboxes
+            var checkbox = $('table tbody input[type="checkbox"]');
+            $("#selectAll").click(function () {
+                if (this.checked) {
+                    checkbox.each(function () {
+                        this.checked = true;
+                    });
+                } else {
+                    checkbox.each(function () {
+                        this.checked = false;
+                    });
+                }
+            });
+            checkbox.click(function () {
+                if (!this.checked) {
+                    $("#selectAll").prop("checked", false);
+                }
+            });
+        });
     </script>
+
+
 
 </head>
 
 <body>
-<div id="table1">
 
+<div class="table-title">
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>Mitarbeiter <b>Verwalten</b></h2>
+        </div>
+        <div class="col-sm-6">
+            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"><i class="material-icons">&#xE147;</i>
+                <span>Mitarbeiter Hinzufügen</span></a>
+            <a href="#deleteEmployeeModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i>
+                <span>Löschen</span></a>
+        </div>
+    </div>
 </div>
+
+<div id="editEmployeeModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Employee</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <textarea class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-info" value="Save">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Delete Modal HTML -->
+<div id="deleteEmployeeModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Employee</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete these Records?</p>
+                    <p class="text-warning">
+                        <small>This action cannot be undone.</small>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="submit" class="btn btn-danger" value="Delete">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.write("<table id='tabelle2' >");
+    document.write("<tr>")
+    document.write("<th>Name</th>\n" +
+        "        <th>Email</th>\n" +
+        "        <th>Addresse</th>\n" +
+        "        <th>Qualifikationen</th>\n" +
+        "        <th>Führerschein</th>\n" +
+        "        <th>Aktionen</th>");
+    document.write("</tr>");
+    document.write("</table>");
+</script>
 
 <script type="text/javascript">
     $(document).ready(function() {
