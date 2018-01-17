@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mitarbeiteransicht</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="img/favicon.ico">
+
+    <title>Mitarbeiteranicht</title>
+
+
+
+    <script src="Script/jquery-3.2.1.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"/>
+
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script src="MOCK_DATA.json"></script>
+
+
+    <script>
+
+        document.write("<table id='tabelle2' >");
+
+
+            document.write("<tr>")
+            document.write("<th>Name</th>\n" +
+                "        <th>Email</th>\n" +
+                "        <th>Addresse</th>\n" +
+                "        <th>Qualifikationen</th>\n" +
+                "        <th>Führerschein</th>\n" +
+                "        <th>Aktionen</th>");
+            document.write("</tr>");
+
+        document.write("</table>");
+
+    </script>
+
+
+
+
+</head>
+
+
+<body>
+<div id="table1">
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.getJSON("MOCK_DATA.json", function(data){
+            var employee_data = '';
+            $.each(data, function(key, value){
+                employee_data += '<tr>';
+                employee_data += '<td>' + value.name + "</td>";
+                employee_data += '<td>' + value.email + "</td>";
+                employee_data += '<td>' + value.address + "</td>";
+                employee_data += '<td>' + value.qualification + "</td>";
+                employee_data += '<td>' + value.license + "</td>";
+                employee_data += '<tr>';
+            });
+            $('#tabelle2').append(employee_data);
+        });
+    });
+</script>
+<!--
+<table id="datatable" cellspacing="0" width="50%">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Addresse</th>
+        <th>Qualifikationen</th>
+        <th>Führerschein</th>
+        <th>Aktionen</th>
+    </tr>
+    <tr>
+        <td> Thomas Hardy</td>
+        <td> thomashardy@mail . com</td>
+        <td> 89 Chiaroscuro Rd, Portland, USA</td>
+        <td> (171) 555 - 2222</td>
+        <td> JA</td>
+        <td>
+            <a href="#editEmployeeModal" class="edit" data - toggle="modal"><i class="material-icons"
+                                                                               data - toggle="tooltip"
+                                                                               title="Edit">&#xE254;</i></a>
+            <a href="#deleteEmployeeModal" class="delete" data - toggle="modal"><i class="material-icons"
+                                                                                   data - toggle="tooltip"
+                                                                                   title="Delete">&#xE872;</i></a>
+        </td>
+    </tr>
+    <tr>
+        <td> Thomas Hardy</td>
+        <td> thomashardy@mail . com</td>
+        <td> 89 Chiaroscuro Rd, Portland, USA</td>
+        <td> (171) 555 - 2222</td>
+        <td> JA</td>
+        <td>
+            <a href="#editEmployeeModal" class="edit" data - toggle="modal"><i class="material-icons"
+                                                                               data - toggle="tooltip"
+                                                                               title="Edit">&#xE254;</i></a>
+            <a href="#deleteEmployeeModal" class="delete" data - toggle="modal"><i class="material-icons"
+                                                                                   data - toggle="tooltip"
+                                                                                   title="Delete">&#xE872;</i></a>
+        </td>
+    </tr>
+    <tr>
+        <td> Thomas Hardy</td>
+        <td> thomashardy@mail . com</td>
+        <td> 89 Chiaroscuro Rd, Portland, USA</td>
+        <td> (171) 555 - 2222</td>
+        <td> JA</td>
+        <td>
+            <a href="#editEmployeeModal" class="edit" data - toggle="modal"><i class="material-icons"
+                                                                               data - toggle="tooltip"
+                                                                               title="Edit">&#xE254;</i></a>
+            <a href="#deleteEmployeeModal" class="delete" data - toggle="modal"><i class="material-icons"
+                                                                                   data - toggle="tooltip"
+                                                                                   title="Delete">&#xE872;</i></a>
+        </td>
+    </tr>
+    <tr>
+        <td> Thomas Hardy</td>
+        <td> thomashardy@mail . com</td>
+        <td> 89 Chiaroscuro Rd, Portland, USA</td>
+        <td> (171) 555 - 2222</td>
+        <td> JA</td>
+        <td>
+            <a href="#editEmployeeModal" class="edit" data - toggle="modal"><i class="material-icons"
+                                                                               data - toggle="tooltip"
+                                                                               title="Edit">&#xE254;</i></a>
+            <a href="#deleteEmployeeModal" class="delete" data - toggle="modal"><i class="material-icons"
+                                                                                   data - toggle="tooltip"
+                                                                                   title="Delete">&#xE872;</i></a>
+        </td>
+    </tr>
+    <tr>
+        <td> Thomas Hardy</td>
+        <td> thomashardy@mail . com</td>
+        <td> 89 Chiaroscuro Rd, Portland, USA</td>
+        <td> (171) 555 - 2222</td>
+        <td> JA</td>
+        <td>
+            <a href="#editEmployeeModal" class="edit" data - toggle="modal"><i class="material-icons"
+                                                                               data - toggle="tooltip"
+                                                                               title="Edit">&#xE254;</i></a>
+            <a href="#deleteEmployeeModal" class="delete" data - toggle="modal"><i class="material-icons"
+                                                                                   data - toggle="tooltip"
+                                                                                   title="Delete">&#xE872;</i></a>
+        </td>
+    </tr>
+    <tr>
+        <td> Thomas Hardy</td>
+        <td> thomashardy@mail . com</td>
+        <td> 89 Chiaroscuro Rd, Portland, USA</td>
+        <td> (171) 555 - 2222</td>
+        <td> JA</td>
+        <td>
+            <a href="#editEmployeeModal" class="edit" data - toggle="modal"><i class="material-icons"
+                                                                               data - toggle="tooltip"
+                                                                               title="Edit">&#xE254;</i></a>
+            <a href="#deleteEmployeeModal" class="delete" data - toggle="modal"><i class="material-icons"
+                                                                                   data - toggle="tooltip"
+                                                                                   title="Delete">&#xE872;</i></a>
+        </td>
+    </tr>
+    <tr>
+        <td> Thomas Hardy</td>
+        <td> thomashardy@mail . com</td>
+        <td> 89 Chiaroscuro Rd, Portland, USA</td>
+        <td> (171) 555 - 2222</td>
+        <td> JA</td>
+        <td>
+            <a href="#editEmployeeModal" class="edit" data - toggle="modal"><i class="material-icons"
+                                                                               data - toggle="tooltip"
+                                                                               title="Edit">&#xE254;</i></a>
+            <a href="#deleteEmployeeModal" class="delete" data - toggle="modal"><i class="material-icons"
+                                                                                   data - toggle="tooltip"
+                                                                                   title="Delete">&#xE872;</i></a>
+        </td>
+    </tr>
+    <tr>
+        <td> Thomas Hardy</td>
+        <td> thomashardy@mail . com</td>
+        <td> 89 Chiaroscuro Rd, Portland, USA</td>
+        <td> (171) 555 - 2222</td>
+        <td> JA</td>
+        <td>
+            <a href="#editEmployeeModal" class="edit" data - toggle="modal"><i class="material-icons"
+                                                                               data - toggle="tooltip"
+                                                                               title="Edit">&#xE254;</i></a>
+            <a href="#deleteEmployeeModal" class="delete" data - toggle="modal"><i class="material-icons"
+                                                                                   data - toggle="tooltip"
+                                                                                   title="Delete">&#xE872;</i></a>
+        </td>
+    </tr>
+
+
+</table>
+-->
+
+
+</body>
+</html>
