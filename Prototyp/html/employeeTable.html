@@ -13,15 +13,27 @@
 
     <title>Mitarbeiteranicht</title>
 
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="bootstrap/docs/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Custom styles for this template -->
+    <link href="styles/signin.css" rel="stylesheet">
 
     <script src="Script/jquery-3.2.1.js"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="styles/employeeList.css" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css"/>
 
     <script type="text/javascript" src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-    <script src="MOCK_DATA.json"></script>
-
 
     <script>
 
@@ -41,11 +53,7 @@
 
     </script>
 
-
-
-
 </head>
-
 
 <body>
 <div id="table1">
@@ -63,6 +71,12 @@
                 employee_data += '<td>' + value.address + "</td>";
                 employee_data += '<td>' + value.qualification + "</td>";
                 employee_data += '<td>' + value.license + "</td>";
+                employee_data += '<td>' + "<a href=\"#editEmployeeModal\" class=\"edit\" data - toggle=\"modal\"><i class=\"material-icons\"\n" +
+                    "                                                                                       data - toggle=\"tooltip\"\n" +
+                    "                                                                                       title=\"Edit\">&#xE254;</i></a>\n" +
+                    "                    <a href=\"#deleteEmployeeModal\" class=\"delete\" data - toggle=\"modal\"><i class=\"material-icons\"\n" +
+                    "                                                                                           data - toggle=\"tooltip\"\n" +
+                    "                                                                                           title=\"Delete\">&#xE872;</i></a>" + "</td>";
                 employee_data += '<tr>';
             });
             $('#tabelle2').append(employee_data);
