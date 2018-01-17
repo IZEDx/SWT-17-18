@@ -8,6 +8,10 @@ export enum RepetitionEnum {
     once
 }
 
+export interface DBEventTable {
+
+}
+
 export interface IEvent extends IDBObject {
     name : string;
     description : string;
@@ -20,11 +24,29 @@ export interface IEvent extends IDBObject {
     getAssignedEmployees() : Promise<IEmployee[]>;
 }
 
-export interface IEmployee extends IDBObject {
-    firstname: string;
-    name: string;
+export interface DBEmployeeView {
+    idEmployee?: number,
+    name: string, 
+    surname: string;
     phone: string;
-    address: IAddress;
+    qualifications: string;
+    username: string;
+    email: string;
+    password: string;
+    driverLicense: boolean;
+    isAdmin: boolean;
+    idAddress: number;
+    street: string;
+    number: string;
+    postcode: string;
+    city: string;
+}
+
+export interface IEmployee extends IDBObject {
+    name: string;
+    surname: string;
+    phone: string;
+    address: DBAddressTable;
     qualifications: string;
     username: string;
     email: string;
@@ -33,14 +55,15 @@ export interface IEmployee extends IDBObject {
     isAdmin: boolean;
 
     delete(): void;
-    edit(firstname: string, name: string, address : IAddress, username: string, email: string, password: string,  qualifications: string[], driverLicence : boolean, isAdmin : boolean): void;
+    edit(firstname: string, name: string, address : DBAddressTable, username: string, email: string, password: string,  qualifications: string[], driverLicence : boolean, isAdmin : boolean): void;
     getHoursForWeek(timeInWeek: Date): number;
     getHoursForMonth(timeInMonth: Date): number;
     getAssignedEvents(): IEvent[];
     getEventAtTime(time: DateTime): IEvent|null;
 }
 
-export interface IAddress extends IDBObject {
+export interface DBAddressTable {
+    idAddress?: number;
     street: string;
     number: string;
     postcode: string;
@@ -52,8 +75,8 @@ export interface IDatabaseController {
     addEventToDb(event: IEvent): Promise<boolean>;
 
     getEventsFromTimespan(from: DateTime, to: DateTime): Promise<IEvent[]>;
-    getEventsByName(name: String): Promise<IEvent[]>;
-    getEmployeeByAnyInfo(info: String): Promise<IEmployee[]>;
+    getEventsByName(name: string): Promise<IEvent[]>;
+    getEmployeeByAnyInfo(key: string, value: string): Promise<IEmployee[]>;
 
     removeEventFromDb(event: IEvent): Promise<boolean>;
     removeEmployeeFromDb(employee: IEmployee): Promise<boolean>;
@@ -66,5 +89,6 @@ export interface IDatabaseController {
 }
 
 export interface IDBObject {
-    id: number;
+    id?: number;
+    db: IDatabaseController;
 }

@@ -1,32 +1,15 @@
 
-import { DateTime, IAddress, IEmployee, IEvent } from "./interfaces";
-import { DatabaseController, DBObject } from "./databasecontroller";
-import { IRoute } from "express";
+import { DateTime, DBAddressTable, IEmployee, IEvent, IDatabaseController } from "./interfaces";
 
-const db = DatabaseController.singleton();
-
-export function EmployeeRoute(route: IRoute) {
-    route.post((req, res) => {
-        const b = req.body;
-        const address: IAddress = {
-            id: -1, 
-            street: b.street,
-            number: b.number,
-            postcode: b.postcode,
-            city: b.city
-        }
-        Employee.add(b.firstname, b.name, address, b.username, b.email, b.password,
-                    b.qualifications.split(","), b.driverLicense, b.isAdmin);
-    });
-}
-
-export class Employee extends DBObject implements IEmployee {
-    phone: string;
+export class Employee implements IEmployee {
+    id: number;
 
     constructor(
-        public firstname: string, 
+        public db: IDatabaseController,
         public name: string, 
-        public address : IAddress, 
+        public surname: string, 
+        public phone: string,
+        public address : DBAddressTable, 
         public username: string, 
         public email: string, 
         public password: string, 
@@ -34,11 +17,10 @@ export class Employee extends DBObject implements IEmployee {
         public driverLicense : boolean, 
         public isAdmin : boolean
     ) {
-        super();
     }
 
-    static async add(firstname: string, name: string, address : IAddress, username: string, email: string, password: string,  qualifications: string[], driverLicense : boolean, isAdmin : boolean): Promise<Employee|null> {
-        const employee = new Employee(firstname, name, address, username, email, password, qualifications.join(","), driverLicense, isAdmin);
+    static async add(db: IDatabaseController, name: string, surname: string, phone: string, address: DBAddressTable, username: string, email: string, password: string,  qualifications: string[], driverLicense : boolean, isAdmin : boolean): Promise<Employee|null> {
+        const employee = new Employee(db, name, surname, phone, address, username, email, password, qualifications.join(","), driverLicense, isAdmin);
         const success = await db.addEmployeeToDb(employee);
         return success ? employee : null;
     }
@@ -47,7 +29,7 @@ export class Employee extends DBObject implements IEmployee {
 
     }
 
-    edit(firstname: string, name: string, address : IAddress, username: string, email: string, password: string,  qualifications: string[], driverLicense : boolean, isAdmin : boolean): void {
+    edit(name: string, surname: string, address: DBAddressTable, username: string, email: string, password: string,  qualifications: string[], driverLicense : boolean, isAdmin : boolean): void {
         
     }
 
@@ -65,5 +47,29 @@ export class Employee extends DBObject implements IEmployee {
 
     getEventAtTime(time: DateTime): IEvent|null {
         return null;
+    }
+
+    serialize() {
+        const res: any = {
+            name: this.name,
+            surname: this.surname,
+            phone: this.phone,
+            qualifications: this.qualifications,
+            username: this.username,
+            email: this.email,
+            password: this.password,
+            driverLicense: this.driverLicense,
+            isAdmin: this.isAdmin
+        }
+
+        if (this.address !== undefined) {
+            res.Address_idAddress = this.address.idAddress;
+        }
+
+        if (this.id !== undefined) {
+            res.idEmployee = this.id;
+        }
+
+        return res;
     }
 }
