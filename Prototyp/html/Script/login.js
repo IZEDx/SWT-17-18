@@ -1,26 +1,23 @@
-function loginSubmit(username, password) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/api/login");
-    xhttp.setRequestHeader("Content-type", "application/json");
-    xhttp.send(JSON.stringify({
-        username: username,
-        password: password
-    }));
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var response = JSON.parse(xhttp.responseText);
-            if (response.success === true) {
-                var token = response.token;
-                openMainPage(token);
-                alert("Success!");
-            } else {
-                document.getElementById("alert").style.visibility = "true";
-
-            }
+function loginSubmit() {
+    var username = $("#usr").val();
+    var password = $("#inputPassword").val();
+    $.post("/api/login", {
+            username: username,
+            password: password
+    }, (response) => {
+        if (response.success) {
+            window.location.replace("/calendar.html");
+        } else {
+            alert(response.error);
         }
-    };
+    });
 }
 
-function openMainPage(token){
-    window.location.replace("/calendar.html");
-}
+// Check if the user is already logged in, if so forward to the calendar view.
+$.get("/api/isloggedin", (response) => {
+    if (response.success) {
+        window.location.replace("/calendar.html");
+    } else {
+        alert(response.error);
+    }
+});
