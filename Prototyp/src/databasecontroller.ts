@@ -42,7 +42,7 @@ export class DatabaseController implements IDatabaseController {
                 resolve(false);
             } else {
                 this.connection.ping(err => {
-                    resolve(err === undefined);
+                    resolve(err === null);
                 });
             }
         });
@@ -81,7 +81,7 @@ export class DatabaseController implements IDatabaseController {
             console.log("Connected.");
             return this.connection;
         } catch(err) {
-            console.error("Error:", err);
+            console.error("Error connecting to DB:", err.sqlMessage);
             return null;
         }
     }
@@ -102,11 +102,12 @@ export class DatabaseController implements IDatabaseController {
 
     async addEmployeeToDb(employee: Employee): Promise<boolean> {
         try {
-            await this.query(format("INSERT INTO Address SET ?", employee.address))
+            const addr = await this.query<{insertId: number|undefined}>(format("INSERT INTO Address SET ?", employee.address));
+            employee.address.idAddress = addr.insertId;
             await this.query(format("INSERT INTO Employee SET ?", employee.serialize()));
             return true;
         } catch(err) {
-            console.error(err);
+            console.error("Error adding Employee to DB:", err.sqlMessage);
             return false;
         }
     }
@@ -116,7 +117,7 @@ export class DatabaseController implements IDatabaseController {
             await this.query(format("INSERT INTO Event SET ?", event));
             return true;
         } catch(err) {
-            console.error(err);
+            console.error("Error adding Event to DB:", err.sqlMessage);
             return false;
         }
     }
@@ -129,7 +130,7 @@ export class DatabaseController implements IDatabaseController {
     }
 
     getEventsByName(name: String): Promise<Event[]> {
-        return this.query<Event[]>(`SELECT * FROM Event WHERE name = '${escape(name)}';`);
+        return this.query<Event[]>(`SELECT * FROM Event WHERE name = ${escape(name)};`);
     }
 
     async getEmployeeByAnyInfo(key: string, value: string): Promise<Employee[]> {
@@ -137,7 +138,7 @@ export class DatabaseController implements IDatabaseController {
             const foundEmployees: DBEmployeeView[] = await this.query<DBEmployeeView[]>(`
                 SELECT * FROM Employee 
                 INNER JOIN Address ON Employee.Address_idAddress = Address.idAddress 
-                WHERE \`${escape(key)}\` = '${escape(value)}';
+                WHERE ${this.connection.escapeId(key)} = ${escape(value)};
             `);
 
             const dbc: DatabaseController = this;
@@ -154,7 +155,7 @@ export class DatabaseController implements IDatabaseController {
                 return employee;
             });
         } catch(err) {
-            console.error(err);
+            console.error("Error getting Employee from DB:", err.sqlMessage);
             return [];
         }
     }

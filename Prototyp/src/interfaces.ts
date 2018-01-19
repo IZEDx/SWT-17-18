@@ -8,10 +8,6 @@ export enum RepetitionEnum {
     once
 }
 
-export interface DBEventTable {
-
-}
-
 export interface IEvent extends IDBObject {
     name : string;
     description : string;

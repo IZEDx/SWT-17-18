@@ -3,10 +3,10 @@ import { DatabaseController } from "../databasecontroller";
 import { compare } from "bcrypt";
 
 export async function login(req: Request, res: Response) {
-    if ((req.session as any).employee !== undefined) {
+    if ((req.session as any).id !== undefined) {
         res.send({
             success: true,
-            error: "Already logged in."
+            error: "Bereits eingeloggt."
         });
         return;
     }
@@ -15,7 +15,7 @@ export async function login(req: Request, res: Response) {
     const emps = await db.getEmployeeByAnyInfo("username", req.body.username);
 
     if (emps.length > 0 && await compare(req.body.password, emps[0].password)) {
-        (req.session as any).employee = emps[0];
+        (req.session as any).id = emps[0].id;
         res.send({
             success: true,
             error: ""
@@ -23,13 +23,13 @@ export async function login(req: Request, res: Response) {
     } else {
         res.send({
             success: false,
-            error: "Could not log in."
+            error: "Der Username oder Passwort wurde falsch eingegeben."
         });
     }
 }
 
 export function isLoggedIn(req: Request, res: Response) {
-    if ((req.session as any).employee !== undefined) {
+    if ((req.session as any).id !== undefined) {
         res.send({
             success: true,
             error: ""
@@ -37,7 +37,7 @@ export function isLoggedIn(req: Request, res: Response) {
     } else {
         res.send({
             success: false,
-            error: "Not logged in."
+            error: "Nicht eingeloggt."
         });
     }
 }

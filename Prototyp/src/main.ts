@@ -8,6 +8,9 @@ import session = require("express-session");
 import { login, isLoggedIn } from "./api/authentication";
 import { DatabaseController } from "./databasecontroller";
 import { Employee } from "./employee";
+import { DBAddressTable } from "./interfaces";
+import { hash } from "bcrypt";
+import { addEmployee } from "./api/employee";
 
 const path = (...str: string[]) => join(__dirname, "..", ...str);
 
@@ -36,11 +39,20 @@ export async function main(args: string[]) {
 
     apiRouter.post("/login", login);
     apiRouter.get("/isloggedin", isLoggedIn);
-    //EmployeeRoute(apiRouter.route("/employee"));
+    apiRouter.post("/employee", addEmployee);
 
-    Employee.add(db, "admin", "admin", "000000", {
-        idAddress: 0, street: "adminStreet", number: "0", postcode: "00000", city: "adminCity"
-    }, "admin", "admin@localhost", "admin", [], false, true);
+    const address: DBAddressTable = {
+        street: "adminStreet",
+        number: "0",
+        postcode: "00000",
+        city: "adminCity"
+    }
+    const employee = new Employee(
+        db, "admin", "admin", 
+        "000000", address, "admin", 
+        "admin@localhost", await hash("admin", 5), "", 
+        false, true);
+    await db.addEmployeeToDb(employee);
 
     console.log(`Starting WebServer on port ${port}`)
     app.listen(port);
