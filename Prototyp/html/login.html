@@ -47,7 +47,7 @@
         <input type="text" id="usr" class="form-control" placeholder="Username" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="loginSubmit()">Sign in
+        <button class="btn btn-lg btn-primary btn-block" type="button" onclick="loginSubmit()">Sign in
         </button>
         <div id="alert" class="alert alert-warning fade in" style="visibility: hidden">
             <strong>Warning!</strong>Wrong Credentials.
@@ -56,6 +56,8 @@
 
 </div> <!-- /container -->
 
+<script src="Script/jquery-3.2.1.js"></script>
+<script src="Script/login.js"></script>
 
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="bootstrap/docs/assets/js/ie10-viewport-bug-workaround.js"></script>
