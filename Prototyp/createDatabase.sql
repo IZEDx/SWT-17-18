@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `timetable`.`Employee` (
   `street` VARCHAR(45) NOT NULL,
   `number` VARCHAR(6) NOT NULL,
   `postcode` CHAR(5) NOT NULL,
-  PRIMARY KEY (`idEmployee`)
+  PRIMARY KEY (`idEmployee`))
 ENGINE = InnoDB;
 
 
