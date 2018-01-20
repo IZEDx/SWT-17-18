@@ -15,8 +15,9 @@ USE `timetable` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `timetable`.`Employee` (
   `idEmployee` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
+  `forename` VARCHAR(45) NOT NULL,
   `surname` VARCHAR(45) NOT NULL,
+  `dateOfBirth` DATE NOT NULL,
   `phone` VARCHAR(45) NOT NULL,
   `qualifications` VARCHAR(80) NULL,
   `username` VARCHAR(45) NOT NULL UNIQUE,
