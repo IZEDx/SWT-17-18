@@ -31,9 +31,12 @@ function connect(config: IConnectionConfig): Promise<IConnection> {
 export class DatabaseController implements IDatabaseController {
     private config: IConnectionConfig;
     private connection: IConnection;
+    private dbname: string;
 
     private constructor(config: IConnectionConfig){
         this.config = config;
+        this.dbname = this.config.database || "timetable";
+        this.config.database = undefined;
     }
 
     connected(): Promise<boolean> {
@@ -64,24 +67,24 @@ export class DatabaseController implements IDatabaseController {
             console.log("Connecting to database...");
             this.connection = await connect(this.config);
 
-            const schemasFound = await this.query<{name: string}[]>(`SELECT SCHEMA_NAME AS 'name' FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ${escape(this.config.database)}`);
+            const schemasFound = await this.query<{name: string}[]>(`SELECT SCHEMA_NAME AS 'name' FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ${escape(this.dbname)}`);
 
             if (schemasFound.length === 0) {
-                /*
                 console.log("Setting up database...");
-                const file = await readFile("./createDatabase.sql");
-                await this.query(file.toString().replace(/%schema%/g, this.dbname));
+                const file = await readFile("./db.json");
+                const statements: string[] = JSON.parse(file.toString());
+                for (let s of statements) {
+                    await this.query(s.replace(/%schema%/gi, this.dbname));
+                }
 
                 console.log("Database created!");
-                */
-                console.error("Database not found.");
                 return null;
             }
 
             console.log("Connected.");
             return this.connection;
         } catch(err) {
-            console.error("Error connecting to DB:", err.sqlMessage);
+            console.error("Error connecting to DB:", err.sqlMessage ? err.sqlMessage : err);
             return null;
         }
     }
