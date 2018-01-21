@@ -10,6 +10,7 @@ import { DatabaseController } from "./databasecontroller";
 import { Employee } from "./employee";
 import { hash } from "bcrypt";
 import { addEmployee, getEmployees } from "./api/employee";
+import { IEmployeeData } from "./interfaces";
 
 const path = (...str: string[]) => join(__dirname, "..", ...str);
 
@@ -41,7 +42,29 @@ export async function main(args: string[]) {
     apiRouter.post("/employees", addEmployee);
     apiRouter.get("/employees", getEmployees);
 
-    await db.addEmployeeToDb(new Employee(db, {
+    if ((await db.getEmployees()).length === 0) {
+        console.log("Populating the Database with test Employees...");
+        populateTestEmployees(db);
+    }
+
+    console.log(`Starting WebServer on port ${port}`)
+    app.listen(port);
+}
+
+async function populateTestEmployees(db: DatabaseController) {
+    const promises: Promise<void>[] = [];
+    for (const emp of testEmployees) {
+        const add = async () => {
+            emp.password = await hash(emp.password, 5);
+            await db.addEmployeeToDb(new Employee(db, emp))
+        };
+        promises.push(add());
+    }
+    await Promise.all(promises);
+}
+
+const testEmployees: IEmployeeData[] = [
+    {
         forename: "admin",
         surname: "admin",
         dateOfBirth: new Date(1970, 1, 1),
@@ -49,15 +72,12 @@ export async function main(args: string[]) {
         qualifications: "",
         username: "admin",
         email: "",
-        password: await hash("admin", 5),
+        password: "admin",
         driverLicense: false,
         isAdmin: true,
         street: "",
         number: "",
         postcode: "",
         city: ""
-    }));
-
-    console.log(`Starting WebServer on port ${port}`)
-    app.listen(port);
-}
+    }
+]
