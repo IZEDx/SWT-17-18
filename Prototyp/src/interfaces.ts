@@ -80,3 +80,7 @@ export interface IDatabaseController {
     getEventsFromEmployee(employee: IEmployee): Promise<IEvent[]>;
     getEmployeesFromEvent(event: IEvent): Promise<IEmployee[]>;
 }
+
+export interface ISession {
+    databaseID: number;
+}

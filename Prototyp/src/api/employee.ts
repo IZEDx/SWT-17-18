@@ -1,13 +1,14 @@
 
 import { Request, Response } from "express";
 import { DatabaseController } from "../databasecontroller";
-import { IEmployeeData } from "../interfaces";
+import { IEmployeeData, ISession } from "../interfaces";
 import { Employee } from "../employee";
 import { hash } from "bcrypt";
 import { sessionExists } from "../utils";
 
 export async function addEmployee(req: Request, res: Response) {
-    if (sessionExists(req)) {
+    const session: any|ISession = req.session;
+    if (!sessionExists(session)) {
         res.send({
             success: false,
             error: "Nicht eingeloggt."
@@ -15,9 +16,17 @@ export async function addEmployee(req: Request, res: Response) {
         return;
     }
 
-    // TODO: isAdmin check
-
     const db = await DatabaseController.singleton();
+
+    const caller = (await db.getEmployeeByAnyInfo("idEmployee", session.databaseID.toString()))[0];
+    if (!caller.isAdmin) {
+        res.send({
+            success: false,
+            error: "Keine Berechtigung."
+        });
+        return;
+    }
+
     const data: IEmployeeData = req.body;
     data.password = await hash(data.password, 5);
     
@@ -32,7 +41,7 @@ export async function addEmployee(req: Request, res: Response) {
     } else {
         res.send({
             success: false,
-            error: "Nicht eingeloggt."
+            error: "Employee konnte nicht hinzugefügt werden."
         });
     }
 

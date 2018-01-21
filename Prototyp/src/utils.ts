@@ -2,6 +2,7 @@
 import { readFile as readFileCb } from "fs";
 import { createConnection as createConnectionCb, IConnection, IConnectionConfig } from "mysql";
 import { Request } from "express";
+import { ISession } from "./interfaces";
 
 /**
  * Promise wrapper for fs.readFile
@@ -37,6 +38,6 @@ export function createConnection(config: IConnectionConfig): Promise<IConnection
 }
 
 
-export function sessionExists(req: Request) {
-    return (req.session as any).databaseID !== undefined;
+export function sessionExists(session: any): session is ISession {
+    return (session as any).databaseID !== undefined;
 }
