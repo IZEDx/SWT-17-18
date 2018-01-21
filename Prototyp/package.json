@@ -11,7 +11,7 @@
     "debug": "node $NODE_DEBUG_OPTION index.js",
     "debug-win": "node %NODE_DEBUG_OPTION% index.js"
   },
-  "author": "IZED",
+  "author": "Gruppe8",
   "license": "ISC",
   "devDependencies": {
     "@types/bcrypt": "^1.0.0",
