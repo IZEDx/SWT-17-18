@@ -97,3 +97,7 @@ Startet den Server mit den Einstellungen aus der config.json, sollte keine vorha
 #### Configuration ####
 
 Es empfiehlt sich die config-sample.json nicht direkt zu ändern sondern umzubenennen in config.json, damit die gespeicherten Einstellungen bei einem Update nicht überschrieben werden.
+
+## Collaborators ##
+
+Dieser Prototyp ist eine Projektarbeit von Tarik Gün, Niklas Kühtmann, Bavithiran Mahendiran, Torben Rogge und Thomas Urner für das SWT I Praktikum 2017/18.
