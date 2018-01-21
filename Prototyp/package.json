@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/.bin/tsc",
+    "build-pdf": "node createPdf.js",
     "watch": "npm run build -- --watch",
     "start": "node index.js",
     "debug": "node $NODE_DEBUG_OPTION index.js",
@@ -20,6 +21,7 @@
     "@types/mysql": "0.0.34",
     "@types/node": "^8.0.26",
     "@types/node-mysql-wrapper": "0.0.31",
+    "markdown-pdf": "^8.1.0",
     "typescript": "^2.6.1"
   },
   "dependencies": {
