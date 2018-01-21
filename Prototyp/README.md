@@ -9,12 +9,21 @@ die Datenbank auswählen und wenn nicht vorhanden selbst erstellen, genauso wie 
 Außerdem werden zum Testen Mitarbeiter direkt hinzugefügt, damit man sich gleich einloggen kann.
 Für den Adminstratorzugang:
 
-    * Username: admin
-    * Passwort: admin
+* Username: admin
+
+* Passwort: admin
 
 Das Webpanel ist über den jeweiligen Port verfügbar, standardmäßig: http://localhost:8080
 
 Es empfiehlt sich allerdings für externe Verbindungen https mithilfe eines Proxy einzurichten (wie z.b. nginx)
+
+## Decisions ##
+
+Die meisten Abweichungen von der Planung sind durch vorherige Fehler in der Planungsphase oder Implementationslimitation der gewählten Sprache entstanden (z.B. die Node.js Umgebung erlaubt keine Circular Dependencies). 
+
+Wichtige Änderungen die daraus resultierten:
+
+TODO
 
 ## Getting Started ##
 
