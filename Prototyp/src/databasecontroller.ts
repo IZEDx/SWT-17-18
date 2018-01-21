@@ -125,11 +125,16 @@ export class DatabaseController implements IDatabaseController {
         return [];
     }
 
-    async getEmployeeByAnyInfo(key: string, value: string): Promise<Employee[]> {
+    async getEmployees(where?: {key: string, value: string}, limit?: number): Promise<Employee[]> {
+        let sql = "SELECT * FROM Employee";
+        if (where !== undefined) {
+            sql += ` WHERE ${this.connection.escapeId(where.key)} = ${escape(where.value)}`
+        }
+        if (limit !== undefined) {
+            sql += " LIMIT " + this.connection.escape(limit);
+        }
         try{
-            return (await this.query<IEmployeeData[]>(`
-                SELECT * FROM Employee WHERE ${this.connection.escapeId(key)} = ${escape(value)};
-            `))
+            return (await this.query<IEmployeeData[]>(sql))
             .map(data => 
                 new Employee(this, data, data.idEmployee)
             );

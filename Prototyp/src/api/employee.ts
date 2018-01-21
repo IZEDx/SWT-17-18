@@ -18,7 +18,7 @@ export async function addEmployee(req: Request, res: Response) {
 
     const db = await DatabaseController.singleton();
 
-    const caller = (await db.getEmployeeByAnyInfo("idEmployee", session.databaseID.toString()))[0];
+    const caller = (await db.getEmployees({key: "idEmployee", value: (session.employee.idEmployee || "").toString()},)) [0];
     if (!caller.isAdmin) {
         res.send({
             success: false,
@@ -45,4 +45,19 @@ export async function addEmployee(req: Request, res: Response) {
         });
     }
 
+}
+
+export async function getEmployees(req: Request, res: Response) {
+    if (!sessionExists(req.session)) {
+        res.send({
+            success: false,
+            error: "Nicht eingeloggt."
+        });
+        return;
+    }
+
+    const db = await DatabaseController.singleton();
+    const emps = await db.getEmployees();
+    
+    res.send(emps.map(e => e.serialize()));
 }

@@ -39,5 +39,5 @@ export function createConnection(config: IConnectionConfig): Promise<IConnection
 
 
 export function sessionExists(session: any): session is ISession {
-    return (session as any).databaseID !== undefined;
+    return (session as any).employee !== undefined;
 }

@@ -69,7 +69,7 @@ export interface IDatabaseController {
 
     getEventsFromTimespan(from: DateTime, to: DateTime): Promise<IEvent[]>;
     getEventsByName(name: string): Promise<IEvent[]>;
-    getEmployeeByAnyInfo(key: string, value: string): Promise<IEmployee[]>;
+    getEmployees(where?: {key: string, value: string}, limit?: number): Promise<IEmployee[]>;
 
     removeEventFromDb(event: IEvent): Promise<boolean>;
     removeEmployeeFromDb(employee: IEmployee): Promise<boolean>;
@@ -82,5 +82,5 @@ export interface IDatabaseController {
 }
 
 export interface ISession {
-    databaseID: number;
+    employee: IEmployee;
 }

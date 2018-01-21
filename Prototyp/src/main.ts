@@ -9,7 +9,7 @@ import { login, isLoggedIn } from "./api/authentication";
 import { DatabaseController } from "./databasecontroller";
 import { Employee } from "./employee";
 import { hash } from "bcrypt";
-import { addEmployee } from "./api/employee";
+import { addEmployee, getEmployees } from "./api/employee";
 
 const path = (...str: string[]) => join(__dirname, "..", ...str);
 
@@ -39,6 +39,7 @@ export async function main(args: string[]) {
     apiRouter.post("/login", login);
     apiRouter.get("/isloggedin", isLoggedIn);
     apiRouter.post("/employee", addEmployee);
+    apiRouter.get("/employee", getEmployees);
 
     await db.addEmployeeToDb(new Employee(db, {
         forename: "admin",
