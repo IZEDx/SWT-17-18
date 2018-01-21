@@ -6,11 +6,11 @@ function addEmployeeToList(key, value) {
         "<input type='checkbox' id='checkbox1' name='options[]' value='1'> " +
         "<label for='checkbox1'>" + "</label>" +
         "</span>" + "</td>";
+    str += '<td>' + value.forename + " " + value.surname + "</td>";
     str += '<td>' + value.username + "</td>";
     str += '<td>' + value.email + "</td>";
-    str += '<td>' + value.street + "</td>";
-    str += '<td>' + value.qualifications + "</td>";
-    str += '<td>' + value.driverLicense + "</td>";
+    str += '<td>' + (value.isAdmin === 1 ? "Ja" : "Nein") + "</td>";
+    str += '<td>' + value.phone + "</td>";
     str += '<td>' + "<a href=\"#editEmployeeModal\" class=\"edit\" data - toggle=\"modal\"><i class=\"material-icons\"\n" +
         "                                                                                       data - toggle=\"tooltip\"\n" +
         "                                                                                       title=\"Edit\">&#xE254;</i></a>\n" +
