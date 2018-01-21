@@ -1,7 +1,6 @@
 
 import { readFile as readFileCb } from "fs";
 import { createConnection as createConnectionCb, IConnection, IConnectionConfig } from "mysql";
-import { Request } from "express";
 import { ISession } from "./interfaces";
 
 /**

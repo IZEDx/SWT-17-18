@@ -36,7 +36,7 @@ export async function addEmployee(req: Request, res: Response) {
     if (success) {
         res.send({
             success: true,
-            error: ""
+            data: employee.serialize()
         });
     } else {
         res.send({
