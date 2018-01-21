@@ -4,6 +4,13 @@ import { compare } from "bcrypt";
 import { sessionExists } from "../utils";
 import { ISession } from "../interfaces";
 
+/**
+ * POST /api/login
+ * Body: {
+ *  username: string,
+ *  password: string
+ * }
+ */
 export async function login(req: Request, res: Response) {
     const session: any|ISession = req.session;
     if (sessionExists(session)) {
@@ -31,6 +38,9 @@ export async function login(req: Request, res: Response) {
     }
 }
 
+/**
+ * GET /api/isloggedin
+ */
 export function isLoggedIn(req: Request, res: Response) {
     if (sessionExists(req.session)) {
         res.send({

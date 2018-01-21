@@ -13,6 +13,10 @@ export abstract class IDBObject {
     constructor(protected db: IDatabaseController, public readonly id?: number) {
     }
 
+    /**
+     * Serializes the object by copying it's properties to a clean 
+     * object except the inherited properties of IDBObject.
+     */
     serialize(): {} {
         const keys = Object.getOwnPropertyNames(this)
             .filter(key => excludeKeys.indexOf(key) < 0);

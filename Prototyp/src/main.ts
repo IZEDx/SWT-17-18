@@ -14,6 +14,11 @@ import { IEmployeeData } from "./interfaces";
 
 const path = (...str: string[]) => join(__dirname, "..", ...str);
 
+/**
+ * Entry point.
+ * Connects to the database and starts the server.
+ * @param {string[]} args Program Arguments
+ */
 export async function main(args: string[]) {
     let port: number;
     const app = express();
@@ -51,6 +56,10 @@ export async function main(args: string[]) {
     app.listen(port);
 }
 
+/**
+ * Populates the database with test employees specified in testEmployees below.
+ * @param {DatabaseController} db Database to populate.
+ */
 async function populateTestEmployees(db: DatabaseController) {
     const promises: Promise<void>[] = [];
     for (const emp of testEmployees) {
@@ -63,6 +72,9 @@ async function populateTestEmployees(db: DatabaseController) {
     await Promise.all(promises);
 }
 
+/**
+ * Sample set of employees to test with.
+ */
 const testEmployees: IEmployeeData[] = [
     {
         forename: "admin",

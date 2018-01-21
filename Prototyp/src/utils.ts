@@ -36,7 +36,10 @@ export function createConnection(config: IConnectionConfig): Promise<IConnection
     });
 }
 
-
+/**
+ * Tries to proof that the given object is a valid ISession and thus that the user is authenticated.
+ * @param {any} session The assumed session to check.
+ */
 export function sessionExists(session: any): session is ISession {
     return (session as any).employee !== undefined;
 }

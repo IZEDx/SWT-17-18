@@ -6,6 +6,10 @@ import { Employee } from "../employee";
 import { hash } from "bcrypt";
 import { sessionExists } from "../utils";
 
+/**
+ * POST /api/employees
+ * Body: {IEmployeeData}
+ */
 export async function addEmployee(req: Request, res: Response) {
     const session: any|ISession = req.session;
     if (!sessionExists(session)) {
@@ -18,8 +22,7 @@ export async function addEmployee(req: Request, res: Response) {
 
     const db = await DatabaseController.singleton();
 
-    //const caller = (await db.getEmployees({key: "idEmployee", value: (session.employee.idEmployee || "").toString()},)) [0];
-    if (!session.employee.isAdmin) {
+   if (!session.employee.isAdmin) {
         res.send({
             success: false,
             error: "Keine Berechtigung."
@@ -44,9 +47,11 @@ export async function addEmployee(req: Request, res: Response) {
             error: "Employee konnte nicht hinzugefügt werden."
         });
     }
-
 }
 
+/**
+ * GET /api/employees?key=xx&value=xx&limit=xx
+ */
 export async function getEmployees(req: Request, res: Response) {
     if (!sessionExists(req.session)) {
         res.send({
@@ -56,8 +61,13 @@ export async function getEmployees(req: Request, res: Response) {
         return;
     }
 
+    let where: undefined|{key: string, value: string};
+    if (req.query.key !== undefined && req.query.value !== undefined) {
+        where = {key: req.query.key, value: req.query.value};
+    }
+
     const db = await DatabaseController.singleton();
-    const emps = await db.getEmployees();
+    const emps = await db.getEmployees(where, req.query.limit !== undefined ? parseInt(req.query.limt) : undefined);
     
     res.send(emps.map(e => e.serialize()));
 }

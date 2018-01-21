@@ -26,6 +26,10 @@ export class DatabaseController implements IDatabaseController {
         this.config.database = undefined;
     }
 
+    /**
+     * Returns the DatabaseController instance or instantiates it if necessary.
+     * If the connection has closed down it will also reconnect.
+     */
     static async singleton(): Promise<DatabaseController> {
         if (DatabaseController.instance === undefined) {
             DatabaseController.instance = new DatabaseController(mysqlConfig);
@@ -37,6 +41,9 @@ export class DatabaseController implements IDatabaseController {
         return DatabaseController.instance;
     }
 
+    /**
+     * Checks if this DatabaseController is connected to the database.
+     */
     checkConnection(): Promise<boolean> {
         return new Promise((resolve, reject) => {
             if (this.connection === undefined) {
@@ -49,6 +56,9 @@ export class DatabaseController implements IDatabaseController {
         });
     }
 
+    /**
+     * Connected the DatabaseController to the Database.
+     */
     async connect(): Promise<IConnection|null> {
         try {
             console.log("Connecting to database...");
@@ -79,7 +89,11 @@ export class DatabaseController implements IDatabaseController {
         }
     }
 
-    query<T>(sql: string, ): Promise<T> {
+    /**
+     * Queries the database for the given SQL Querystring. 
+     * @param sql Statement to query, preferrably escaped.
+     */
+    query<T>(sql: string): Promise<T> {
         return new Promise<T>((resolve, reject) => {
             this.connection.query(sql, (err, results) => {
                 if ( err === undefined || err === null ) {
