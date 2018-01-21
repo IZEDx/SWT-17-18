@@ -1,5 +1,7 @@
 # Dienstplan #
 
+&nbsp;
+
 ## About ##
 Diese Anwendung ist ein eigenständiger Webserver der zusammen mit einer MySQL-Datenbank betrieben wird.
 
@@ -17,6 +19,8 @@ Das Webpanel ist über den jeweiligen Port verfügbar, standardmäßig: http://l
 
 Es empfiehlt sich allerdings für externe Verbindungen https mithilfe eines Proxy einzurichten (wie z.b. nginx)
 
+&nbsp;
+
 ## Decisions ##
 
 Wir haben in diesem Prototypen die Anwendungsfälle Login, Mitarbeiteransicht und Mitarbeiter hinzufügen umgesetzt, da ein einzelner Anwendungsfall bei unserem Beispiel zu trivial wäre und alleine auch nicht umsetzbar.
@@ -31,12 +35,23 @@ Wichtige Änderungen die daraus resultierten:
 
 - In der Employee- und Event-Klasse haben wir die statische add() und nicht statischen edit() und delete() Methoden entfernt. Datenbank-Interaktionen sollten möglichst nur über den DatabaseController laufen. Die Methoden werden im Prinzip jetzt aber durch die REST-API trotzdem dargestellt, nur über HTTP.
 
+- ```DatabaseController.getEmployeeByAnyInfo(info): Employee[]``` ist jetzt ```DatabaseController.getEmployees(where?: {key: string, value: string}, limit?: number): Employee[]```
+Da die spezifizierte Aufrufsignatur ungenau war und somit genauer und allgemeiner zu verwenden ist.
+
+- Die Constructor von Employee und Event nehmen jetzt nicht mehr einfach die Properties als parameter, sondern stattdessen das DatenbankController Objekt mit dem gearbeitert werden soll, ein Data Objekt, welches die Properties enthält und optional die ID, unter der das jeweilige Objekt in der Datenbank referenziert wird. Hier wird Implementationsbedingt benötigt, dass der Controller bei der Instanziierung mit übergeben wird, und die ID sollte optional sein, da DatabaseController.addEmployeeToDb/addEventToDb fertige Employee/Event Objekte benötigen.
+
+&nbsp;
+
+&nbsp;
+
 ## Getting Started ##
 
 Zur Installation und zum Ausführen wird [Node](https://nodejs.org) und
 der dazugehörige [Node Package Manager](https://www.npmjs.com/) benötigt, welcher
 mit Node mitgeliefert wird. Beide Tools sollten über die Pfadvariable
 des Systems verfügbar sein.
+
+&nbsp;
 
 ### Setup ###
 ```
@@ -50,6 +65,8 @@ Typescript Compiler.
 
 _Beachte: Alle npm Commands müssen im "Prototyp" Ordner ausgeführt
 werden._
+
+&nbsp;
 
 #### Build ####
 
@@ -66,12 +83,16 @@ Außerdem kann man eine PDF aus dieser README.md erstellen mithilfe von:
 Prototyp$ npm run build-pdf
 ```
 
+&nbsp;
+
 #### Run ####
 ```
 Prototyp$ npm start
 ```
 
 Startet den Server mit den Einstellungen aus der config.json, sollte keine vorhanden sein werden die Standardeinstellungen aus der config-sample.json verwendet.
+
+&nbsp;
 
 #### Configuration ####
 
