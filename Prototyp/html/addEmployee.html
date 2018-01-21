@@ -107,7 +107,7 @@
 
             <script type="text/javascript">
                 $(document).ready(function() {
-                    $.getJSON("MOCK_DATA.json", function(data){
+                    $.getJSON("/api/employees", function(data){
                         var employee_data = '';
                         $.each(data, function(key, value){
                             employee_data += '<tr>';
@@ -115,11 +115,11 @@
                                 "<input type='checkbox' id='checkbox1' name='options[]' value='1'> " +
                                 "<label for='checkbox1'>" + "</label>" +
                                 "</span>" + "</td>";
-                            employee_data += '<td>' + value.name + "</td>";
+                            employee_data += '<td>' + value.username + "</td>";
                             employee_data += '<td>' + value.email + "</td>";
-                            employee_data += '<td>' + value.address + "</td>";
-                            employee_data += '<td>' + value.qualification + "</td>";
-                            employee_data += '<td>' + value.license + "</td>";
+                            employee_data += '<td>' + value.street + "</td>";
+                            employee_data += '<td>' + value.qualifications + "</td>";
+                            employee_data += '<td>' + value.driverLicense + "</td>";
                             employee_data += '<td>' + "<a href=\"#editEmployeeModal\" class=\"edit\" data - toggle=\"modal\"><i class=\"material-icons\"\n" +
                                 "                                                                                       data - toggle=\"tooltip\"\n" +
                                 "                                                                                       title=\"Edit\">&#xE254;</i></a>\n" +
