@@ -38,8 +38,8 @@ export async function main(args: string[]) {
 
     apiRouter.post("/login", login);
     apiRouter.get("/isloggedin", isLoggedIn);
-    apiRouter.post("/employee", addEmployee);
-    apiRouter.get("/employee", getEmployees);
+    apiRouter.post("/employees", addEmployee);
+    apiRouter.get("/employees", getEmployees);
 
     await db.addEmployeeToDb(new Employee(db, {
         forename: "admin",

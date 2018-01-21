@@ -82,5 +82,5 @@ export interface IDatabaseController {
 }
 
 export interface ISession {
-    employee: IEmployee;
+    employee: IEmployeeData;
 }

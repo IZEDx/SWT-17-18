@@ -18,8 +18,8 @@ export async function addEmployee(req: Request, res: Response) {
 
     const db = await DatabaseController.singleton();
 
-    const caller = (await db.getEmployees({key: "idEmployee", value: (session.employee.idEmployee || "").toString()},)) [0];
-    if (!caller.isAdmin) {
+    //const caller = (await db.getEmployees({key: "idEmployee", value: (session.employee.idEmployee || "").toString()},)) [0];
+    if (!session.employee.isAdmin) {
         res.send({
             success: false,
             error: "Keine Berechtigung."

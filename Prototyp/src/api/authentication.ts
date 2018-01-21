@@ -18,7 +18,7 @@ export async function login(req: Request, res: Response) {
     const emps = await db.getEmployees({key: "username", value: req.body.username});
 
     if (emps.length > 0 && await compare(req.body.password, emps[0].password)) {
-        session.employee = emps[0];
+        session.employee = emps[0].serialize();
         res.send({
             success: true,
             error: ""
