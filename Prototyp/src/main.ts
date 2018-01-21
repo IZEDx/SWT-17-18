@@ -31,7 +31,7 @@ export async function main(args: string[]) {
         saveUninitialized: true,
         cookie: {}
     }));
-    app.use(serveStatic(path("html")));
+    app.use(serveStatic(path("html"), {index: ["login.html"]}));
     app.use(urlencoded({ extended: true }));
     app.use(json());
     app.use("/api", apiRouter);
