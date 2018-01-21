@@ -67,7 +67,7 @@ export async function getEmployees(req: Request, res: Response) {
     }
 
     const db = await DatabaseController.singleton();
-    const emps = await db.getEmployees(where, req.query.limit !== undefined ? parseInt(req.query.limt) : undefined);
+    const emps = await db.getEmployees(where, req.query.limit !== undefined ? parseInt(req.query.limit) : undefined);
     
     res.send(emps.map(e => e.serialize()));
 }
