@@ -19,11 +19,17 @@ Es empfiehlt sich allerdings für externe Verbindungen https mithilfe eines Prox
 
 ## Decisions ##
 
+Wir haben in diesem Prototypen die Anwendungsfälle Login, Mitarbeiteransicht und Mitarbeiter hinzufügen umgesetzt, da ein einzelner Anwendungsfall bei unserem Beispiel zu trivial wäre und alleine auch nicht umsetzbar.
+
+Für die Implementation haben wir uns für TypeScript in einer Node.js Umgebung entschieden, da es sowohl als static fileserver, als auch als API Server funktioniert und eine gute Modellierung unseres Szenarios ermöglicht.
+
 Die meisten Abweichungen von der Planung sind durch vorherige Fehler in der Planungsphase oder Implementationslimitation der gewählten Sprache entstanden (z.B. die Node.js Umgebung erlaubt keine Circular Dependencies). 
 
 Wichtige Änderungen die daraus resultierten:
 
-TODO
+- Wir haben die Address-Klasse entfernt und deren Felder der Employee-Klasse zugewiesen, da durch die 1:1-Beziehung der Vorteil einer seperaten Klasse dafür nicht mehr gegeben ist.
+
+- In der Employee- und Event-Klasse haben wir die statische add() und nicht statischen edit() und delete() Methoden entfernt. Datenbank-Interaktionen sollten möglichst nur über den DatabaseController laufen. Die Methoden werden im Prinzip jetzt aber durch die REST-API trotzdem dargestellt, nur über HTTP.
 
 ## Getting Started ##
 
