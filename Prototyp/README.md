@@ -61,9 +61,14 @@ Dies führt nun den Typescript Compiler aus, welcher das Projekt anhand
 der tsconfig.json zu Javascript übersetzt. Die fertigen Dateien sind
 im "dist" Ordner.
 
+Außerdem kann man eine PDF aus dieser README.md erstellen mithilfe von:
+```
+Prototyp$ npm run build-pdf
+```
+
 #### Run ####
 ```
-npm start
+Prototyp$ npm start
 ```
 
 Startet den Server mit den Einstellungen aus der config.json, sollte keine vorhanden sein werden die Standardeinstellungen aus der config-sample.json verwendet.
