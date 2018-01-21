@@ -8,7 +8,6 @@ import session = require("express-session");
 import { login, isLoggedIn } from "./api/authentication";
 import { DatabaseController } from "./databasecontroller";
 import { Employee } from "./employee";
-import { DBAddressTable } from "./interfaces";
 import { hash } from "bcrypt";
 import { addEmployee } from "./api/employee";
 
@@ -27,7 +26,7 @@ export async function main(args: string[]) {
     }
 
     app.use(session({
-        secret: 'swt17-18',
+        secret: 'SAFG§/EQGWBASDHU!)"§BFSU$',
         resave: false,
         saveUninitialized: true,
         cookie: {}
@@ -41,18 +40,22 @@ export async function main(args: string[]) {
     apiRouter.get("/isloggedin", isLoggedIn);
     apiRouter.post("/employee", addEmployee);
 
-    const address: DBAddressTable = {
-        street: "adminStreet",
-        number: "0",
-        postcode: "00000",
-        city: "adminCity"
-    }
-    const employee = new Employee(
-        db, "admin", "admin", 
-        "000000", address, "admin", 
-        "admin@localhost", await hash("admin", 5), "", 
-        false, true);
-    await db.addEmployeeToDb(employee);
+    await db.addEmployeeToDb(new Employee(db, {
+        forename: "admin",
+        surname: "admin",
+        dateOfBirth: new Date(1970, 1, 1),
+        phone: "000000",
+        qualifications: "",
+        username: "admin",
+        email: "",
+        password: await hash("admin", 5),
+        driverLicense: false,
+        isAdmin: true,
+        street: "",
+        number: "",
+        postcode: "",
+        city: ""
+    }));
 
     console.log(`Starting WebServer on port ${port}`)
     app.listen(port);

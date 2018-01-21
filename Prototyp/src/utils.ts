@@ -1,13 +1,15 @@
 
-import {readFile as readFileCallback} from "fs";
+import { readFile as readFileCb } from "fs";
+import { createConnection as createConnectionCb, IConnection, IConnectionConfig } from "mysql";
+import { Request } from "express";
 
 /**
  * Promise wrapper for fs.readFile
- * @param path File to be read.
+ * @param {string | Buffer} path File to be read.
  */
 export function readFile(path: string | Buffer): Promise<Buffer> {
     return new Promise<Buffer>((resolve, reject) => {
-        readFileCallback(path, (err, data) => {
+        readFileCb(path, (err, data) => {
             if (err) {
                 reject(err);
             } else {
@@ -15,4 +17,26 @@ export function readFile(path: string | Buffer): Promise<Buffer> {
             }
         });
     });
+}
+
+/**
+ * Promise wrapper for mysql.createConnection
+ * @param {IConnectionConfig} config Config to use
+ */
+export function createConnection(config: IConnectionConfig): Promise<IConnection> {
+    return new Promise<IConnection>((resolve, reject) => {
+        const conn = createConnectionCb(config);
+        conn.connect(async err => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(conn);
+            }
+        });
+    });
+}
+
+
+export function sessionExists(req: Request) {
+    return (req.session as any).databaseID !== undefined;
 }

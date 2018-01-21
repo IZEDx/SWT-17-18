@@ -8,22 +8,41 @@ export enum RepetitionEnum {
     once
 }
 
-export interface IEvent extends IDBObject {
-    name : string;
-    description : string;
-    begin : Date;
-    end : Date;
-    repetition : RepetitionEnum;
+const excludeKeys = ["db", "id", "constructor"]
+export abstract class IDBObject {
+    constructor(protected db: IDatabaseController, public readonly id?: number) {
+    }
 
-    delete(): void;
-    edit(name: string, description : string, begin: DateTime, end : DateTime, repetition : RepetitionEnum, employees : IEmployee[]): Promise<boolean>;
+    serialize(): {} {
+        const keys = Object.getOwnPropertyNames(this)
+            .filter(key => excludeKeys.indexOf(key) < 0);
+        const data = {};
+
+        for (const key of keys) {
+            data[key] = this[key];
+        }
+
+        return data;
+    };
+}
+
+export interface IEventData {
+    idEvent?: number;
+    name: string;
+    description: string;
+    begin: DateTime;
+    end: DateTime;
+    repetition: RepetitionEnum;
+}
+export interface IEvent extends IEventData, IDBObject {
     getAssignedEmployees() : Promise<IEmployee[]>;
 }
 
-export interface DBEmployeeView {
-    idEmployee?: number,
-    name: string, 
+export interface IEmployeeData {
+    idEmployee?: number;
+    forename: string;
     surname: string;
+    dateOfBirth: DateTime;
     phone: string;
     qualifications: string;
     username: string;
@@ -31,39 +50,17 @@ export interface DBEmployeeView {
     password: string;
     driverLicense: boolean;
     isAdmin: boolean;
-    idAddress: number;
     street: string;
     number: string;
     postcode: string;
     city: string;
 }
 
-export interface IEmployee extends IDBObject {
-    name: string;
-    surname: string;
-    phone: string;
-    address: DBAddressTable;
-    qualifications: string;
-    username: string;
-    email: string;
-    password: string;
-    driverLicense: boolean;
-    isAdmin: boolean;
-
-    delete(): void;
-    edit(firstname: string, name: string, address : DBAddressTable, username: string, email: string, password: string,  qualifications: string[], driverLicence : boolean, isAdmin : boolean): void;
-    getHoursForWeek(timeInWeek: Date): number;
-    getHoursForMonth(timeInMonth: Date): number;
+export interface IEmployee extends IEmployeeData, IDBObject {
+    getHoursForWeek(timeInWeek: DateTime): number;
+    getHoursForMonth(timeInMonth: DateTime): number;
     getAssignedEvents(): IEvent[];
     getEventAtTime(time: DateTime): IEvent|null;
-}
-
-export interface DBAddressTable {
-    idAddress?: number;
-    street: string;
-    number: string;
-    postcode: string;
-    city: string;
 }
 
 export interface IDatabaseController {
@@ -82,9 +79,4 @@ export interface IDatabaseController {
 
     getEventsFromEmployee(employee: IEmployee): Promise<IEvent[]>;
     getEmployeesFromEvent(event: IEvent): Promise<IEmployee[]>;
-}
-
-export interface IDBObject {
-    id?: number;
-    db: IDatabaseController;
 }

@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import { DatabaseController } from "../databasecontroller";
 import { compare } from "bcrypt";
+import { sessionExists } from "../utils";
 
 export async function login(req: Request, res: Response) {
-    if ((req.session as any).id !== undefined) {
+    if (sessionExists(req)) {
         res.send({
             success: true,
             error: "Bereits eingeloggt."
@@ -15,7 +16,7 @@ export async function login(req: Request, res: Response) {
     const emps = await db.getEmployeeByAnyInfo("username", req.body.username);
 
     if (emps.length > 0 && await compare(req.body.password, emps[0].password)) {
-        (req.session as any).id = emps[0].id;
+        (req.session as any).databaseID = emps[0].id;
         res.send({
             success: true,
             error: ""
@@ -29,7 +30,7 @@ export async function login(req: Request, res: Response) {
 }
 
 export function isLoggedIn(req: Request, res: Response) {
-    if ((req.session as any).id !== undefined) {
+    if (sessionExists(req)) {
         res.send({
             success: true,
             error: ""

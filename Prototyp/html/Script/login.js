@@ -15,6 +15,7 @@ function loginSubmit() {
 
 // Check if the user is already logged in, if so forward to the calendar view.
 $.get("/api/isloggedin", (response) => {
+    console.log(response);
     if (response.success) {
         window.location.replace("/calendar.html");
     } else {

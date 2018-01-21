@@ -6,7 +6,7 @@
     "CREATE SCHEMA IF NOT EXISTS `%schema%` DEFAULT CHARACTER SET utf8",
     "USE `%schema%`",
 
-    "CREATE TABLE IF NOT EXISTS `%schema%`.`Employee` (`idEmployee` INT UNSIGNED NOT NULL AUTO_INCREMENT, `forename` VARCHAR(45) NOT NULL, `surname` VARCHAR(45) NOT NULL, `dateOfBirth` DATE NOT NULL,`phone` VARCHAR(45) NOT NULL, `qualifications` VARCHAR(80) NULL, `username` VARCHAR(45) NOT NULL UNIQUE, `email` VARCHAR(45) NOT NULL, `password` CHAR(60) NOT NULL, `driverLicense` TINYINT(1) NOT NULL, `isAdmin` TINYINT(1) NOT NULL, `street` VARCHAR(45) NOT NULL, `number` VARCHAR(6) NOT NULL, `postcode` CHAR(5) NOT NULL, PRIMARY KEY (`idEmployee`)) ENGINE = InnoDB",
+    "CREATE TABLE IF NOT EXISTS `%schema%`.`Employee` (`idEmployee` INT UNSIGNED NOT NULL AUTO_INCREMENT, `forename` VARCHAR(45) NOT NULL, `surname` VARCHAR(45) NOT NULL, `dateOfBirth` DATE NOT NULL,`phone` VARCHAR(45) NOT NULL, `qualifications` VARCHAR(80) NULL, `username` VARCHAR(45) NOT NULL UNIQUE, `email` VARCHAR(45) NOT NULL, `password` CHAR(60) NOT NULL, `driverLicense` TINYINT(1) NOT NULL, `isAdmin` TINYINT(1) NOT NULL, `street` VARCHAR(45) NOT NULL, `number` VARCHAR(6) NOT NULL, `postcode` CHAR(5) NOT NULL, `city` VARCHAR(45) NOT NULL, PRIMARY KEY (`idEmployee`)) ENGINE = InnoDB",
 
     "CREATE TABLE IF NOT EXISTS `%schema%`.`Event` (`idEvent` INT UNSIGNED NOT NULL AUTO_INCREMENT, `name` VARCHAR(45) NOT NULL, `begin` DATETIME NOT NULL, `end` DATETIME NOT NULL, `repetition` ENUM('daily', 'weedays', 'weekly', 'once') NOT NULL, `description` MEDIUMTEXT NOT NULL, PRIMARY KEY (`idEvent`)) ENGINE = InnoDB",
 

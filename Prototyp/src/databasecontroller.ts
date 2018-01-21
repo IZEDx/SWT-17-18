@@ -1,13 +1,12 @@
 
-import { DateTime, IDatabaseController, DBAddressTable, DBEmployeeView } from "./interfaces";
+import { DateTime, IDatabaseController, IEmployeeData } from "./interfaces";
 import { Employee } from "./employee";
 import { Event } from "./event";
-import { readFile } from "./utils";
-import { createConnection, IConnection, IConnectionConfig, escape, format } from "mysql";
+import { readFile, createConnection } from "./utils";
+import { escape, format, IConnection, IConnectionConfig } from "mysql";
 
-export { escape, IConnectionConfig, format };
+export { escape, format, IConnectionConfig };
 
-let controllerInstance: DatabaseController;
 let mysqlConfig: IConnectionConfig;
 try {
     mysqlConfig = require("../config.json").mysql;
@@ -15,20 +14,8 @@ try {
     mysqlConfig = require("../config-sample.json").mysql;
 }
 
-function connect(config: IConnectionConfig): Promise<IConnection> {
-    return new Promise<IConnection>((resolve, reject) => {
-        const conn = createConnection(config);
-        conn.connect(async err => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(conn);
-            }
-        });
-    });
-}
-
 export class DatabaseController implements IDatabaseController {
+    private static instance: DatabaseController;
     private config: IConnectionConfig;
     private connection: IConnection;
     private dbname: string;
@@ -39,7 +26,18 @@ export class DatabaseController implements IDatabaseController {
         this.config.database = undefined;
     }
 
-    connected(): Promise<boolean> {
+    static async singleton(): Promise<DatabaseController> {
+        if (DatabaseController.instance === undefined) {
+            DatabaseController.instance = new DatabaseController(mysqlConfig);
+        }
+        if (!await DatabaseController.instance.checkConnection()) {
+            await DatabaseController.instance.connect();
+        }
+
+        return DatabaseController.instance;
+    }
+
+    checkConnection(): Promise<boolean> {
         return new Promise((resolve, reject) => {
             if (this.connection === undefined) {
                 resolve(false);
@@ -51,26 +49,16 @@ export class DatabaseController implements IDatabaseController {
         });
     }
 
-    static async singleton(): Promise<DatabaseController> {
-        if (controllerInstance === undefined) {
-            controllerInstance = new DatabaseController(mysqlConfig);
-        }
-        if (!await controllerInstance.connected()) {
-            await controllerInstance.connect();
-        }
-
-        return controllerInstance;
-    }
-
     async connect(): Promise<IConnection|null> {
         try {
             console.log("Connecting to database...");
-            this.connection = await connect(this.config);
+            this.connection = await createConnection(this.config);
 
             const schemasFound = await this.query<{name: string}[]>(`SELECT SCHEMA_NAME AS 'name' FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ${escape(this.dbname)}`);
 
             if (schemasFound.length === 0) {
                 console.log("Setting up database...");
+
                 const file = await readFile("./db.json");
                 const statements: string[] = JSON.parse(file.toString());
                 for (let s of statements) {
@@ -79,6 +67,8 @@ export class DatabaseController implements IDatabaseController {
 
                 console.log("Database created!");
                 return null;
+            } else {
+                await this.query(`USE ${this.connection.escapeId(this.dbname)}`)
             }
 
             console.log("Connected.");
@@ -105,8 +95,7 @@ export class DatabaseController implements IDatabaseController {
 
     async addEmployeeToDb(employee: Employee): Promise<boolean> {
         try {
-            const addr = await this.query<{insertId: number|undefined}>(format("INSERT INTO Address SET ?", employee.address));
-            employee.address.idAddress = addr.insertId;
+            //console.log(employee.serialize());
             await this.query(format("INSERT INTO Employee SET ?", employee.serialize()));
             return true;
         } catch(err) {
@@ -117,7 +106,7 @@ export class DatabaseController implements IDatabaseController {
 
     async addEventToDb(event: Event): Promise<boolean> {
         try {
-            await this.query(format("INSERT INTO Event SET ?", event));
+            await this.query(format("INSERT INTO Event SET ?", event.serialize()));
             return true;
         } catch(err) {
             console.error("Error adding Event to DB:", err.sqlMessage);
@@ -132,31 +121,18 @@ export class DatabaseController implements IDatabaseController {
         return [];
     }
 
-    getEventsByName(name: String): Promise<Event[]> {
-        return this.query<Event[]>(`SELECT * FROM Event WHERE name = ${escape(name)};`);
+    async getEventsByName(name: String): Promise<Event[]> {
+        return [];
     }
 
     async getEmployeeByAnyInfo(key: string, value: string): Promise<Employee[]> {
         try{
-            const foundEmployees: DBEmployeeView[] = await this.query<DBEmployeeView[]>(`
-                SELECT * FROM Employee 
-                INNER JOIN Address ON Employee.Address_idAddress = Address.idAddress 
-                WHERE ${this.connection.escapeId(key)} = ${escape(value)};
-            `);
-
-            const dbc: DatabaseController = this;
-            return foundEmployees.map(ev => {
-                const address: DBAddressTable = {
-                    idAddress: ev.idAddress,
-                    street: ev.street,
-                    number: ev.number,
-                    postcode: ev.postcode,
-                    city: ev.city
-                }
-                const employee = new Employee(dbc, ev.name, ev.surname, ev.phone, address, ev.username, ev.email, ev.password, ev.qualifications, ev.driverLicense, ev.isAdmin)
-                employee.id = ev.idEmployee !== undefined ? ev.idEmployee : -1;
-                return employee;
-            });
+            return (await this.query<IEmployeeData[]>(`
+                SELECT * FROM Employee WHERE ${this.connection.escapeId(key)} = ${escape(value)};
+            `))
+            .map(data => 
+                new Employee(this, data, data.idEmployee)
+            );
         } catch(err) {
             console.error("Error getting Employee from DB:", err.sqlMessage);
             return [];
